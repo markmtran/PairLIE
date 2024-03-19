@@ -67,10 +67,10 @@ def eval():
         I_img = transforms.ToPILImage()(I.squeeze(0))                
         D_img = transforms.ToPILImage()(D.squeeze(0))  
 
-        L_img.save(opt.output_folder + '/L/' + name[0])
-        R_img.save(opt.output_folder + '/R/' + name[0])
-        I_img.save(opt.output_folder + '/I/' + name[0])  
-        D_img.save(opt.output_folder + '/D/' + name[0])                       
+        L_img.save(opt.output_folder + '/L_' + name[0])
+        R_img.save(opt.output_folder + '/R_' + name[0])
+        I_img.save(opt.output_folder + '/I_' + name[0])  
+        D_img.save(opt.output_folder + '/D_' + name[0])                       
 
     torch.set_grad_enabled(True)
 
