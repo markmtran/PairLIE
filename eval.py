@@ -60,17 +60,17 @@ def eval():
         L = L.cpu()
         R = R.cpu()
         I = I.cpu()
-        D = D.cpu()        
+        # D = D.cpu()        
 
         L_img = transforms.ToPILImage()(L.squeeze(0))
         R_img = transforms.ToPILImage()(R.squeeze(0))
         I_img = transforms.ToPILImage()(I.squeeze(0))                
-        D_img = transforms.ToPILImage()(D.squeeze(0))  
+        # D_img = transforms.ToPILImage()(D.squeeze(0))  
 
-        L_img.save(opt.output_folder + '/L_' + name[0])
-        R_img.save(opt.output_folder + '/R_' + name[0])
-        I_img.save(opt.output_folder + '/I_' + name[0])  
-        D_img.save(opt.output_folder + '/D_' + name[0])                       
+        L_img.save(opt.output_folder + '/luminance/' + name[0])
+        R_img.save(opt.output_folder + '/reflectance/' + name[0])
+        I_img.save(opt.output_folder + '/enhanced/' + name[0])  
+        # D_img.save(opt.output_folder + '/D_' + name[0])                       
 
     torch.set_grad_enabled(True)
 
