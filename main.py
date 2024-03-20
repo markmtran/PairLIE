@@ -35,7 +35,12 @@ parser.add_argument(
 parser.add_argument(
     "--seed", type=int, default=123456789, help="random seed to use. Default=123"
 )
-parser.add_argument("--data_train", type=str, default="/content/data/our485/low/")
+# parser.add_argument("--data_train", type=str, default="/content/data/our485/low/")
+parser.add_argument(
+    "--data_train",
+    type=str,
+    default="/content/PairLIE_train/PairLIE/PairLIE-training-dataset",
+)
 parser.add_argument("--rgb_range", type=int, default=1, help="maximum value of RGB")
 parser.add_argument(
     "--save_folder",
