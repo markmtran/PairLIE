@@ -53,7 +53,7 @@ def eval():
     for batch in testing_data_loader:
         with torch.no_grad():
             input, name = batch[0], batch[1]
-        # input = input.cuda()
+        input = input.cuda()
         print(name)
 
         with torch.no_grad():
