@@ -24,7 +24,7 @@ parser.add_argument("--start_iter", type=int, default=1, help="Starting Epoch")
 parser.add_argument(
     "--lr", type=float, default=1e-4, help="Learning Rate. Default=1e-4"
 )
-parser.add_argument("--gpu_mode", type=bool, default=False)
+parser.add_argument("--gpu_mode", type=bool, default=True)
 parser.add_argument(
     "--threads", type=int, default=0, help="number of threads for data loader to use"
 )
@@ -39,7 +39,7 @@ parser.add_argument(
 parser.add_argument(
     "--data_train",
     type=str,
-    default="/content/PairLIE_train/PairLIE/PairLIE-training-dataset",
+    default="/content/PairLIE_data/PairLIE/PairLIE-training-dataset",
 )
 parser.add_argument("--rgb_range", type=int, default=1, help="maximum value of RGB")
 parser.add_argument(
@@ -74,8 +74,8 @@ def train():
     for iteration, batch in enumerate(training_data_loader, 1):
 
         im1, im2, file1, file2 = batch[0], batch[1], batch[2], batch[3]
-        # im1 = im1.cuda()
-        # im2 = im2.cuda()
+        im1 = im1.cuda()
+        im2 = im2.cuda()
         L1, R1, X1 = model(im1)
         L2, R2, X2 = model(im2)
         loss1 = C_loss(R1, R2)
@@ -117,8 +117,8 @@ training_data_loader = DataLoader(
 )
 
 print("===> Building model ")
-# model = net().cuda()
-model = net()
+model = net().cuda()
+# model = net()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr, betas=(0.9, 0.999), eps=1e-8)
 
 milestones = []
