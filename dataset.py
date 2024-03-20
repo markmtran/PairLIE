@@ -1,3 +1,8 @@
+"""
+Defines two custom datasets using PyTorch's torch.utils.data.Dataset class for training and evaluation. 
+These datasets are responsible for loading and preprocessing the image data used for 
+training the PairLIE model and evaluating its performance.
+"""
 
 import os
 import random
@@ -12,11 +17,16 @@ import torchvision.transforms as transforms
 
 
 def is_image_file(filename):
-    return any(filename.endswith(extension) for extension in [".png", ".jpg", ".bmp", ".JPG", ".jpeg"])
+    return any(
+        filename.endswith(extension)
+        for extension in [".png", ".jpg", ".bmp", ".JPG", ".jpeg"]
+    )
+
 
 def load_img(filepath):
-    img = Image.open(filepath).convert('RGB')
+    img = Image.open(filepath).convert("RGB")
     return img
+
 
 class DatasetFromFolder(data.Dataset):
     def __init__(self, data_dir, transform=None):
@@ -26,37 +36,43 @@ class DatasetFromFolder(data.Dataset):
 
     def __getitem__(self, index):
         index = index
-        data_filenames = [join(join(self.data_dir, str(index+1)), x) for x in listdir(join(self.data_dir, str(index+1))) if is_image_file(x)]
+        data_filenames = [
+            join(join(self.data_dir, str(index + 1)), x)
+            for x in listdir(join(self.data_dir, str(index + 1)))
+            if is_image_file(x)
+        ]
         num = len(data_filenames)
-        index1 = random.randint(1,num)
-        index2 = random.randint(1,num)
+        index1 = random.randint(1, num)
+        index2 = random.randint(1, num)
         while abs(index1 - index2) == 0:
-            index2 = random.randint(1,num)
+            index2 = random.randint(1, num)
 
-        im1 = load_img(data_filenames[index1-1])
-        im2 = load_img(data_filenames[index2-1])
+        im1 = load_img(data_filenames[index1 - 1])
+        im2 = load_img(data_filenames[index2 - 1])
 
-        _, file1 = os.path.split(data_filenames[index1-1])
-        _, file2 = os.path.split(data_filenames[index2-1])
+        _, file1 = os.path.split(data_filenames[index1 - 1])
+        _, file2 = os.path.split(data_filenames[index2 - 1])
 
-        seed = np.random.randint(123456789) # make a seed with numpy generator 
+        seed = np.random.randint(123456789)  # make a seed with numpy generator
         if self.transform:
-            random.seed(seed) # apply this seed to img tranfsorms
-            torch.manual_seed(seed) # needed for torchvision 0.7
+            random.seed(seed)  # apply this seed to img tranfsorms
+            torch.manual_seed(seed)  # needed for torchvision 0.7
             im1 = self.transform(im1)
             random.seed(seed)
-            torch.manual_seed(seed)         
-            im2 = self.transform(im2)        
+            torch.manual_seed(seed)
+            im2 = self.transform(im2)
         return im1, im2, file1, file2
 
     def __len__(self):
-        return 324 # for custom datasets, please check the dataset size and modify this number
+        return 324  # for custom datasets, please check the dataset size and modify this number
 
 
 class DatasetFromFolderEval(data.Dataset):
     def __init__(self, data_dir, transform=None):
         super(DatasetFromFolderEval, self).__init__()
-        data_filenames = [join(data_dir, x) for x in listdir(data_dir) if is_image_file(x)]
+        data_filenames = [
+            join(data_dir, x) for x in listdir(data_dir) if is_image_file(x)
+        ]
         data_filenames.sort()
         self.data_filenames = data_filenames
         self.transform = transform
@@ -71,4 +87,3 @@ class DatasetFromFolderEval(data.Dataset):
 
     def __len__(self):
         return len(self.data_filenames)
-

@@ -1,3 +1,10 @@
+"""
+File: net.py
+Description: Defines the architecture of the PairLIE model in PyTorch. 
+The model consists of three subnetworks: L_net, R_net, and N_net, 
+each responsible for different aspects of low-light image enhancement.
+"""
+
 import torch
 import torch.nn as nn
 
